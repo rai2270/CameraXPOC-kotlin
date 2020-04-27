@@ -174,7 +174,6 @@ class MainActivity : AppCompatActivity() {
             setTargetAspectRatio(AspectRatio.RATIO_16_9)
             setTargetRotation(previewView.display.rotation)
         }.build()
-        imagePreview.setSurfaceProvider(previewView.previewSurfaceProvider)
 
         imageAnalysis = ImageAnalysis.Builder().apply {
             setImageQueueDepth(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
@@ -204,6 +203,8 @@ class MainActivity : AppCompatActivity() {
             )
             cameraControl = camera.cameraControl
             cameraInfo = camera.cameraInfo
+            previewView.preferredImplementationMode = PreviewView.ImplementationMode.TEXTURE_VIEW
+            imagePreview.setSurfaceProvider(previewView.createSurfaceProvider(cameraInfo))
             setTorchStateObserver()
             setZoomStateObserver()
         }, ContextCompat.getMainExecutor(this))
